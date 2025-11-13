@@ -2,7 +2,6 @@ from .image_base import ImageBaseDataset
 from ..smp import *
 import re
 import ast
-# from .metrics import anls_score, relaxed_correctness, vqa_score
 
 ARTICLES = {'a', 'an', 'the'}
 MANUAL_MAP = {'none': '0', 'zero': '0', 'one': '1', 'two': '2', 'three': '3', 'four': '4',
@@ -108,7 +107,6 @@ def vqa_score(pred: str, gts: list[dict]) -> float:
 class OurDataset(ImageBaseDataset):
     TYPE = 'VQA'
 
-    # URL tới TSV file (có thể upload lên HuggingFace hoặc server)
     DATASET_URL = {
         'our_dataset': 'https://huggingface.co/datasets/KoiiVN/our_dataset/blob/main/our_dataset.tsv'
     }
@@ -124,53 +122,39 @@ class OurDataset(ImageBaseDataset):
     def supported_datasets(cls):
         return ['our_dataset']
 
-    # OPTIONAL: Tùy chỉnh prompt
     def build_prompt(self, line):
-        """
-        Tùy chỉnh cách build prompt nếu cần
-        line: dict chứa các trường từ TSV
-        """
         msgs = []
 
-        # Thêm ảnh
         if isinstance(line['image'], list):
             msgs.extend([dict(type='image', value=img)
                         for img in line['image']])
         else:
             msgs.append(dict(type='image', value=line['image']))
 
-        # Thêm question
-        question = line['question']
+        question = (
+            "Answer the question according to the image using a single word or phrase. "
+            "If the image does not contain enough evidence, answer exactly: unanswerable. "
+            "Do not use outside knowledge.\n"
+            f"{(line['question']).strip()}\n"
+            'The last line of your response should be of the form "ANSWER: $ANSWER" '
+            '(without quotes) where $ANSWER is the answer to the question.'
+        )
 
         msgs.append(dict(type='text', value=question))
         return msgs
 
     def evaluate(self, eval_file, **judge_kwargs):
-        """
-        Tính metrics cho dataset từ file .xlsx
-
-        Luôn tính:
-            - Exact Match ('Overall') như code ban đầu
-
-        Đồng thời cố gắng tính:
-            - anls
-            - relaxed_accuracy
-            - vqa_score
-
-        Metric nào không phù hợp với format data (không parse được) thì đơn giản là bỏ qua.
-        """
         # Load predictions
         data = load(eval_file)
 
         correct = 0
         total = 0
 
-        anls_scores = []        # list[float] in [0, 1]
-        relaxed_scores = []     # list[0.0 hoặc 1.0]
-        vqa_scores = []         # list[float] in [0, 1]
+        anls_scores = []
+        relaxed_scores = []
+        vqa_scores = []
 
         def clean_pred_text(p):
-            """Loại bỏ prefix kiểu 'the answer is', dấu chấm cuối câu, space thừa."""
             s = str(p)
             s = s.replace('the answer is', '').replace('The answer is', '')
             s = s.rstrip('.').strip()
@@ -180,18 +164,17 @@ class OurDataset(ImageBaseDataset):
             pred_raw = row['prediction']
             ans_raw = row['answer']
 
-            # ---------- Exact Match (giữ đúng logic cũ) ----------
+            # ---------- Exact Match ----------
             pred_em = str(pred_raw).strip().upper()
             ans_em = str(ans_raw).strip().upper()
             if pred_em == ans_em:
                 correct += 1
             total += 1
 
-            # Text dùng cho các metric mềm
             pred_txt = clean_pred_text(pred_raw)
             ans_str = str(ans_raw).strip()
 
-            # ---------- Chuẩn GT thành list[str] cho ANLS & relaxed_accuracy ----------
+            # ---------- ANLS & relaxed_accuracy ----------
             gt_list = None
             try:
                 if isinstance(ans_raw, list):
@@ -218,7 +201,6 @@ class OurDataset(ImageBaseDataset):
                     score_anls = anls_score(pred_txt, gt_list, threshold=0.5)
                     anls_scores.append(score_anls)
                 except Exception:
-                    # nếu metric này fail cho row này thì bỏ qua row đó
                     pass
 
             # ---------- Relaxed Accuracy ----------
@@ -231,7 +213,7 @@ class OurDataset(ImageBaseDataset):
                 except Exception:
                     pass
 
-            # ---------- VQA Score (chỉ khi GT có dạng list[dict{'answer': ...}]) ----------
+            # ---------- VQA Score ----------
             try:
                 gts_vqa = None
                 if isinstance(ans_raw, list) and all(
@@ -249,14 +231,12 @@ class OurDataset(ImageBaseDataset):
                     score_vqa = vqa_score(pred_txt, gts_vqa)
                     vqa_scores.append(score_vqa)
             except Exception:
-                # nếu parse lỗi hoặc format sai thì đơn giản là không cộng vào vqa_scores
                 pass
 
-        # ---------- Tổng hợp kết quả ----------
         accuracy = correct / total * 100 if total > 0 else 0.0
 
         results = {
-            'Acc': round(accuracy, 4),  # giữ format gốc
+            'Acc': round(accuracy, 4),
         }
 
         if anls_scores:
