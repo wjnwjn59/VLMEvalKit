@@ -112,7 +112,7 @@ class OurDataset(ImageBaseDataset):
     }
 
     DATASET_MD5 = {
-        'our_dataset': 'fcd85b662f9f4a9fe36ec917d8fffcac'
+        'our_dataset': 'fc652743ec59bbcb8d00b9986a1d4a35'
     }
 
     def __init__(self, dataset='our_dataset', **kwargs):

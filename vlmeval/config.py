@@ -979,6 +979,12 @@ internvl3_5 = {
         InternVLChat, model_path="OpenGVLab/InternVL3_5-1B", version="V2.0"
     ),
     "InternVL3_5-2B": partial(
+        InternVLChat, model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/OpenGVLab_InternVL3_5-2B-HF", version="V2.0"
+    ),
+    "InternVL3_5-2B-Both-NR": partial(
+        InternVLChat, model_path="OpenGVLab/InternVL3_5-2B", version="V2.0"
+    ),
+    "InternVL3_5-2B-Both-R": partial(
         InternVLChat, model_path="OpenGVLab/InternVL3_5-2B", version="V2.0"
     ),
     "InternVL3_5-4B": partial(
