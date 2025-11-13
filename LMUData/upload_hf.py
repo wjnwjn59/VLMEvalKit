@@ -1,6 +1,12 @@
+import os
+
 from huggingface_hub import HfApi
 
-api = HfApi(token="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")
+token = os.environ.get("HF_TOKEN")
+if not token:
+    raise RuntimeError("Set the HF_TOKEN environment variable before running this script.")
+
+api = HfApi(token=token)
 api.upload_folder(
     folder_path="/home/khoina/LMUData/our_dataset",
     repo_id="KoiiVN/our_dataset",
