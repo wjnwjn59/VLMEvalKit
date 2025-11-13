@@ -14,9 +14,8 @@ from .image_vqa import (
     ImageVQADataset, MathVision, OCRBench, MathVista, LLaVABench, LLaVABench_KO, VGRPBench, MMVet, MTVQADataset,
     TableVQABench, CustomVQADataset, CRPE, MathVerse, OlympiadBench, SeePhys, QSpatial, VizWiz, MMNIAH, LogicVista,
     MME_CoT, MMSci_Captioning, Physics_yale, TDBenchGrounding, WildDocBenchmark, OCR_Reasoning, PhyX, CountBenchQA,
-    ZEROBench, Omni3DBench, TallyQA, MMEReasoning, MMVMBench, BMMR, OCRBench_v2, AyaVisionBench, MathCanvas
+    ZEROBench, Omni3DBench, TallyQA, MMEReasoning, MMVMBench, BMMR, OCRBench_v2, AyaVisionBench, MathCanvas,
 )
-
 from .image_ccocr import CCOCRDataset
 from .image_shortqa import ImageShortQADataset, PathVQA_VAL, PathVQA_TEST
 from .text_mcq import CustomTextMCQDataset, TextMCQDataset
@@ -92,6 +91,7 @@ from .matbench import MATBench
 
 from .reasonmap_plus import ReasonMap_Plus
 from .gsm8k_v import GSM8KVDataset
+from .our_dataset import OurDataset  # <=== ADD OUR DATASET
 
 
 class ConcatDataset(ImageBaseDataset):
@@ -241,7 +241,8 @@ TEXT_DATASET = [
 ]
 
 CUSTOM_DATASET = [
-    CustomMCQDataset, CustomVQADataset, CustomTextMCQDataset
+    CustomMCQDataset, CustomVQADataset, CustomTextMCQDataset, 
+    OurDataset # <=== ADD OUR DATASET
 ]
 
 DATASET_COLLECTION = [ConcatDataset, ConcatVideoDataset]
