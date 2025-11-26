@@ -91,7 +91,6 @@ from .matbench import MATBench
 
 from .reasonmap_plus import ReasonMap_Plus
 from .gsm8k_v import GSM8KVDataset
-from .our_dataset import OurDataset  # <=== ADD OUR DATASET
 
 
 class ConcatDataset(ImageBaseDataset):
@@ -242,7 +241,6 @@ TEXT_DATASET = [
 
 CUSTOM_DATASET = [
     CustomMCQDataset, CustomVQADataset, CustomTextMCQDataset, 
-    OurDataset # <=== ADD OUR DATASET
 ]
 
 DATASET_COLLECTION = [ConcatDataset, ConcatVideoDataset]
