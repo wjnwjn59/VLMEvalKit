@@ -1146,7 +1146,7 @@ qwen3vl_series = {
     ),
     "Qwen3-VL-2B-Instruct": partial(
         Qwen3VLChat,
-        model_path="Qwen/Qwen3-VL-2B-Instruct",
+        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen3-VL-2B-Instruct",
         use_custom_prompt=False,
         use_vllm=True,
         temperature=0.7, 
@@ -1284,7 +1284,7 @@ idefics_series = {
 smolvlm_series = {
     "SmolVLM-256M": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-256M-Instruct"),
     "SmolVLM-500M": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-500M-Instruct"),
-    "SmolVLM": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Instruct"),
+    "SmolVLM": partial(SmolVLM, model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/HuggingFaceTB_SmolVLM-Instruct"),
     "SmolVLM-DPO": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Instruct-DPO"),
     "SmolVLM-Synthetic": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Synthetic"),
     "SmolVLM2-256M": partial(
@@ -1402,12 +1402,12 @@ phi3_series = {
         Phi3Vision, model_path="microsoft/Phi-3-vision-128k-instruct"
     ),
     "Phi-3.5-Vision": partial(
-        Phi3_5Vision, model_path="microsoft/Phi-3.5-vision-instruct"
+        Phi3_5Vision, model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/microsoft_Phi-3.5-vision-instruct"
     ),
 }
 
 phi4_series = {
-    'Phi-4-Vision': partial(Phi4Multimodal, model_path='microsoft/Phi-4-multimodal-instruct'),
+    'Phi-4-Vision': partial(Phi4Multimodal, model_path='/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/microsoft_Phi-4-multimodal-instruct'),
 }
 
 xgen_mm_series = {
@@ -1490,7 +1490,7 @@ qwen2vl_series = {
     ),
     "Qwen2-VL-2B-Instruct": partial(
         Qwen2VLChat,
-        model_path="Qwen/Qwen2-VL-2B-Instruct",
+        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen2-VL-2B-Instruct",
         min_pixels=1280 * 28 * 28,
         max_pixels=16384 * 28 * 28,
     ),
@@ -1520,7 +1520,7 @@ qwen2vl_series = {
     ),
     "Qwen2.5-VL-3B-Instruct": partial(
         Qwen2VLChat,
-        model_path="Qwen/Qwen2.5-VL-3B-Instruct",
+        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen2.5-VL-3B-Instruct",
         min_pixels=1280 * 28 * 28,
         max_pixels=16384 * 28 * 28,
         use_custom_prompt=False,
@@ -1534,7 +1534,7 @@ qwen2vl_series = {
     ),
     "Qwen2.5-VL-7B-Instruct": partial(
         Qwen2VLChat,
-        model_path="Qwen/Qwen2.5-VL-7B-Instruct",
+        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen2.5-VL-7B-Instruct",
         min_pixels=1280 * 28 * 28,
         max_pixels=16384 * 28 * 28,
         use_custom_prompt=False,

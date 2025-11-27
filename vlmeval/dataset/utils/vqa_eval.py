@@ -160,7 +160,7 @@ def _process_digit_article(inText):
 def hit_calculate(result, dataset_name, anls_threshold=0.5):
     if listinstr(['TextVQA'], dataset_name):
         return [np.mean(x['match']) for x in result]
-    elif listinstr(['DocVQA', 'InfoVQA'], dataset_name):
+    elif listinstr(['DocVQA', 'InfoVQA', 'NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_TEST_LAYOUT_9'], dataset_name):
         return [0.0 if 1 - np.min(x['match']) < anls_threshold else 1 - np.min(x['match']) for x in result]
     elif listinstr(['ChartQA', 'OCRVQA'], dataset_name):
         return [np.max(x['match']) for x in result]

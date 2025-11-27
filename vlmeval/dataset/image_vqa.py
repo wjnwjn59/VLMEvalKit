@@ -35,8 +35,9 @@ class ImageVQADataset(ImageBaseDataset):
         'https://opencompass.openxlab.space/utils/VLMEval/ChartQA_TEST.tsv',
         'GQA_TestDev_Balanced':
         'https://opencompass.openxlab.space/utils/VLMEval/GQA_TestDev_Balanced.tsv',
-        'our_dataset':
+        'NarrativeInfoVQA_TEST_LAYOUT_9':
         '',
+        'NarrativeInfoVQA_TEST': ''
     }
 
     DATASET_MD5 = {
@@ -49,15 +50,25 @@ class ImageVQADataset(ImageBaseDataset):
         'InfoVQA_TEST': 'df535bf51b88dc9718252c34131a6227',
         'ChartQA_TEST': 'c902e0aa9be5582a7aad6dcf52734b42',
         'GQA_TestDev_Balanced': '99b62f22e224d9b2f32dcbe41359d1c9',
-        'our_dataset': 'fe2cd152fd790109af33eb5966cd3d3f',
+        'NarrativeInfoVQA_TEST_LAYOUT_9': '7f591d643b6ec92dfd57c8224c0c92f3',
+        'NarrativeInfoVQA_TEST': 'fc652743ec59bbcb8d00b9986a1d4a35'
     }
 
     def build_prompt(self, line):
+        dataset = self.dataset_name
         msgs = super().build_prompt(line)
+
         assert msgs[-1]['type'] == 'text'
-        msgs[-1][
-            'value'] += '\nAnswer the question using a single word or phrase.'
+
+        msgs[-1]['value'] += "\nAnswer the question using a single word or phrase."
+
+        if listinstr(['NarrativeInfoVQA_TEST'], dataset):
+            msgs[-1]['value'] += (
+                "\nIf the question cannot be answered using the image, return unanswerable."
+            )
+
         return msgs
+
 
     def evaluate(self, eval_file, **judge_kwargs):
         if judge_kwargs.get('use_verifier', False):
@@ -79,11 +90,11 @@ class ImageVQADataset(ImageBaseDataset):
         lines = [data.iloc[i] for i in range(lt)]
         if listinstr(['TextVQA'], dataset):
             res = pool.map(partial(process_line, method='vqa_score'), lines)
-        elif listinstr(['ChartQA', 'our_dataset'], dataset):
+        elif listinstr(['ChartQA'], dataset):
             res = pool.map(partial(process_line, method='relaxed_accuracy'), lines)
         elif listinstr(['OCRVQA', 'GQA'], dataset):
             res = pool.map(partial(process_line, method='accuracy'), lines)
-        elif listinstr(['DocVQA', 'InfoVQA'], dataset):
+        elif listinstr(['DocVQA', 'InfoVQA', 'NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_TEST_LAYOUT_9'], dataset):
             res = pool.map(partial(process_line, method='anls'), lines)
         else:  # default using vqa_score to calculate score
             res = pool.map(process_line, lines)
