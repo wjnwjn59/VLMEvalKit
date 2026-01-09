@@ -168,6 +168,14 @@ class MiniCPM_Llama3_V(BaseModel):
             elif listinstr(['MMVet'], dataset):
                 system_prompt = self.detail_system_prompt
                 prompt = question
+            elif listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+                instruction = (
+                    "Answer the question according to the image using a single word or phrase. "
+                    "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                    "Do not use outside knowledge.\n"
+                )
+                system_prompt = ''
+                prompt = instruction + f"Question: {question}"
             else:
                 system_prompt = self.vqa_prompt
                 prompt = question
@@ -377,9 +385,17 @@ class MiniCPM_V_2_6(BaseModel):
                     system_prompt = ''
                 elif listinstr(['MMVet'], dataset):
                     system_prompt = self.detail_system_prompt
+                elif listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+                    instruction = (
+                        "Answer the question according to the image using a single word or phrase. "
+                        "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                        "Do not use outside knowledge.\n"
+                    )
+                    system_prompt = ''
+                    prompt = instruction + f"Question: {question}"
                 else:
                     system_prompt = self.vqa_prompt
-                prompt = question
+                    prompt = question
             else:
                 prompt = question
         else:
@@ -652,9 +668,17 @@ class MiniCPM_o_2_6(BaseModel):
                     system_prompt = ''
                 elif listinstr(['MMVet'], dataset):
                     system_prompt = self.detail_system_prompt
+                elif listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+                    instruction = (
+                        "Answer the question according to the image using a single word or phrase. "
+                        "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                        "Do not use outside knowledge.\n"
+                    )
+                    system_prompt = ''
+                    prompt = instruction + f"Question: {question}"
                 else:
                     system_prompt = self.vqa_prompt
-                prompt = question
+                    prompt = question
             else:
                 prompt = question
         else:
@@ -903,9 +927,17 @@ class MiniCPM_V_4(BaseModel):
                     system_prompt = ''
                 elif listinstr(['MMVet'], dataset):
                     system_prompt = self.detail_system_prompt
+                elif listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+                    instruction = (
+                        "Answer the question according to the image using a single word or phrase. "
+                        "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                        "Do not use outside knowledge.\n"
+                    )
+                    system_prompt = ''
+                    prompt = instruction + f"Question: {question}"
                 else:
                     system_prompt = self.vqa_prompt
-                prompt = question
+                    prompt = question
             else:
                 prompt = question
         else:
@@ -1138,9 +1170,17 @@ class MiniCPM_V_4_5(MiniCPM_V_4):
                     system_prompt = ''
                 elif listinstr(['MMVet'], dataset):
                     system_prompt = self.detail_system_prompt
+                elif listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+                    instruction = (
+                        "Answer the question according to the image using a single word or phrase. "
+                        "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                        "Do not use outside knowledge.\n"
+                    )
+                    system_prompt = ''
+                    prompt = instruction + f"Question: {question}"
                 else:
                     system_prompt = self.vqa_prompt
-                prompt = question
+                    prompt = question
             else:
                 prompt = question
         else:
