@@ -1133,7 +1133,7 @@ qwen3vl_series = {
         top_k=20,
         tensor_parallel_size=2
     ),
-    "Qwen3-VL-8B-Instruct-NarativeInfoVQA-1e": partial(
+    "Qwen3-VL-8B-Instruct-NarrativeInfoVQA-1e": partial(
         Qwen3VLChat,
         model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/Qwen_Qwen3-VL-8B-Instruct-NarrativeInfoVQA-1e",
         use_custom_prompt=False,

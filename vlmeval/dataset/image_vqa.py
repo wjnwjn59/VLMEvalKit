@@ -35,7 +35,8 @@ class ImageVQADataset(ImageBaseDataset):
         'https://opencompass.openxlab.space/utils/VLMEval/ChartQA_TEST.tsv',
         'GQA_TestDev_Balanced':
         'https://opencompass.openxlab.space/utils/VLMEval/GQA_TestDev_Balanced.tsv',
-        'NarrativeInfoVQA_TEST': ''
+        'NarrativeInfoVQA_TEST': '',
+        'NarrativeInfoVQA_9L_TEST': ''
     }
 
     DATASET_MD5 = {
@@ -48,26 +49,30 @@ class ImageVQADataset(ImageBaseDataset):
         'InfoVQA_TEST': 'df535bf51b88dc9718252c34131a6227',
         'ChartQA_TEST': 'c902e0aa9be5582a7aad6dcf52734b42',
         'GQA_TestDev_Balanced': '99b62f22e224d9b2f32dcbe41359d1c9',
-        'NarrativeInfoVQA_TEST': 'fc652743ec59bbcb8d00b9986a1d4a35'
+        'NarrativeInfoVQA_TEST': 'fc652743ec59bbcb8d00b9986a1d4a35',
+        'NarrativeInfoVQA_9L_TEST': '7f591d643b6ec92dfd57c8224c0c92f3'
     }
 
     def build_prompt(self, line):
         dataset = self.dataset_name
         msgs = super().build_prompt(line)
-
         assert msgs[-1]['type'] == 'text'
 
-        msgs[-1]['value'] += "\nAnswer the question according to the image using a single word or phrase. "
+        if listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+            q = msgs[-1]['value'].strip()  
 
-        if listinstr(['NarrativeInfoVQA_TEST'], dataset):
-            msgs[-1]['value'] += (
-                "If the image does not contain enough evidence, answer exactly: unanswerable. Do not use outside knowledge."
+            instruction = (
+                "Answer the question according to the image using a single word or phrase. "
+                "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                "Do not use outside knowledge.\n"
             )
 
-        msgs[-1]['value'] += "\nQuestion: "
+            msgs[-1]['value'] = instruction + f"Question: {q}"
+
+        else:
+            msgs[-1]['value'] += '\nAnswer the question using a single word or phrase.'
 
         return msgs
-
 
     def evaluate(self, eval_file, **judge_kwargs):
         if judge_kwargs.get('use_verifier', False):
