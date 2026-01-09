@@ -20,6 +20,8 @@ DATASET_PROMPTS = {
     'DocVQA_TEST':'doc_qa:',
     'InfoVQA_TEST':'info_qa:',
     'InfoVQA_VAL':'info_qa:',
+    'NarrativeInfoVQA_TEST':'info_qa:',
+    'NarrativeInfoVQA_9L_TEST':'info_qa:',
     'OCRVQA_TEST':'ocr_vqa:',
     'OCRVQA_TESTCORE':'ocr_vqa:',
     'ScienceQA_VAL':'science_qa:',
@@ -77,6 +79,9 @@ class molmo(BaseModel):
             prompt = self.build_prompt_mathvista(line)
         elif dataset in ['AI2D_TEST', 'AI2D_TEST_NO_MASK']:
             prompt = self.build_prompt_ai2d(line)
+        elif dataset is not None and listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+            prefix = DATASET_PROMPTS[dataset]
+            prompt = self.build_prompt_narrativeinfovqa(line, prefix)
         elif dataset is not None and listinstr(list(DATASET_PROMPTS.keys()), dataset):
             prefix = DATASET_PROMPTS[dataset]  # rest of supervised datasets are in VQA format
             prompt = self.build_prompt_vqa(line, prefix)
@@ -157,6 +162,20 @@ class molmo(BaseModel):
             prompt = f"{TYPE_PROMPTS['VQA']} {question}"
         else:
             prompt = f"{prefix} {question}"
+        return prompt
+
+    def build_prompt_narrativeinfovqa(self, line, prefix=None):
+        """Build prompt for NarrativeInfoVQA with special instruction format."""
+        question = line['question']
+        instruction = (
+            "Answer the question according to the image using a single word or phrase. "
+            "If the image does not contain enough evidence, answer exactly: unanswerable. "
+            "Do not use outside knowledge.\n"
+        )
+        if prefix is None:
+            prompt = f"{TYPE_PROMPTS['VQA']} {instruction}Question: {question}"
+        else:
+            prompt = f"{prefix} {instruction}Question: {question}"
         return prompt
 
     def generate_inner(self, message, dataset=None):
