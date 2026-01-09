@@ -273,6 +273,13 @@ class InternVLChat(BaseModel):
             question = line['question']
             if listinstr(['LLaVABench', 'WildVision'], dataset):
                 prompt = question + '\nAnswer this question in detail.'
+            elif listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+                instruction = (
+                    "Answer the question according to the image using a single word or phrase. "
+                    "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                    "Do not use outside knowledge.\n"
+                )
+                prompt = instruction + f"Question: {question}"
             elif listinstr(['OCRVQA', 'TextVQA', 'ChartQA', 'DocVQA', 'InfoVQA', 'OCRBench',
                             'DUDE', 'SLIDEVQA', 'GQA', 'MMLongBench_DOC'], dataset):
                 prompt = question + '\nAnswer the question using a single word or phrase.'
