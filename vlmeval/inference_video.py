@@ -178,6 +178,10 @@ def infer_data(model, model_name, work_dir, dataset, out_file, verbose=False, ap
         if struct is None:
             continue
 
+        # Print prompt if verbose or PRINT_PROMPT env var is set
+        from vlmeval.inference import print_prompt
+        print_prompt(struct, idx=idx, verbose=verbose)
+
         # If `SKIP_ERR` flag is set, the model will skip the generation if error is encountered
         if os.environ.get('SKIP_ERR', False) == '1':
             FAIL_MSG = 'Failed to obtain answer'

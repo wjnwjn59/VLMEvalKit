@@ -7,6 +7,38 @@ from vlmeval.smp import *
 FAIL_MSG = 'Failed to obtain answer via API.'
 
 
+def format_prompt_for_print(struct):
+    """Format a prompt structure (list of dicts) into a readable string."""
+    if not isinstance(struct, list):
+        return str(struct)
+    
+    lines = []
+    for i, item in enumerate(struct):
+        if item.get('type') == 'text':
+            lines.append(f"[Text {i+1}]: {item.get('value', '')}")
+        elif item.get('type') == 'image':
+            img_path = item.get('value', '')
+            if isinstance(img_path, list):
+                lines.append(f"[Image {i+1}]: {len(img_path)} image(s): {', '.join(img_path)}")
+            else:
+                lines.append(f"[Image {i+1}]: {img_path}")
+        else:
+            lines.append(f"[{item.get('type', 'Unknown')} {i+1}]: {item.get('value', '')}")
+    return '\n'.join(lines)
+
+
+def print_prompt(struct, idx=None, verbose=False, print_prompt_flag=None):
+    """Print the prompt if verbose or PRINT_PROMPT flag is set."""
+    should_print = verbose or (print_prompt_flag is None and os.environ.get('PRINT_PROMPT', '0') == '1') or print_prompt_flag
+    if should_print:
+        idx_str = f"Index {idx}: " if idx is not None else ""
+        print(f"\n{'='*80}")
+        print(f"{idx_str}PROMPT:")
+        print('='*80)
+        print(format_prompt_for_print(struct))
+        print('='*80 + "\n", flush=True)
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--data', type=str, nargs='+', required=True)
@@ -41,6 +73,11 @@ def infer_data_api(model, work_dir, model_name, dataset, index_set=None, api_npr
             struct = model.build_prompt(item, dataset=dataset_name)
         else:
             struct = dataset.build_prompt(item)
+        
+        # Print prompt if PRINT_PROMPT env var is set (for API inference, verbose is not available here)
+        idx = item['index'] if 'index' in item else i
+        print_prompt(struct, idx=idx, verbose=False)
+        
         structs.append(struct)
 
     out_file = f'{work_dir}/{model_name}_{dataset_name}_supp.pkl'
@@ -153,6 +190,9 @@ def infer_data(model, model_name, work_dir, dataset, out_file, verbose=False, ap
             struct = model.build_prompt(data.iloc[i], dataset=dataset_name)
         else:
             struct = dataset.build_prompt(data.iloc[i])
+
+        # Print prompt if verbose or PRINT_PROMPT env var is set
+        print_prompt(struct, idx=idx, verbose=verbose)
 
         # If `SKIP_ERR` flag is set, the model will skip the generation if error is encountered
         if os.environ.get('SKIP_ERR', False) == '1':
