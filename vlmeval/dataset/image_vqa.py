@@ -35,8 +35,6 @@ class ImageVQADataset(ImageBaseDataset):
         'https://opencompass.openxlab.space/utils/VLMEval/ChartQA_TEST.tsv',
         'GQA_TestDev_Balanced':
         'https://opencompass.openxlab.space/utils/VLMEval/GQA_TestDev_Balanced.tsv',
-        'NarrativeInfoVQA_TEST_LAYOUT_9':
-        '',
         'NarrativeInfoVQA_TEST': ''
     }
 
@@ -50,7 +48,6 @@ class ImageVQADataset(ImageBaseDataset):
         'InfoVQA_TEST': 'df535bf51b88dc9718252c34131a6227',
         'ChartQA_TEST': 'c902e0aa9be5582a7aad6dcf52734b42',
         'GQA_TestDev_Balanced': '99b62f22e224d9b2f32dcbe41359d1c9',
-        'NarrativeInfoVQA_TEST_LAYOUT_9': '7f591d643b6ec92dfd57c8224c0c92f3',
         'NarrativeInfoVQA_TEST': 'fc652743ec59bbcb8d00b9986a1d4a35'
     }
 
@@ -60,12 +57,14 @@ class ImageVQADataset(ImageBaseDataset):
 
         assert msgs[-1]['type'] == 'text'
 
-        msgs[-1]['value'] += "\nAnswer the question using a single word or phrase."
+        msgs[-1]['value'] += "\nAnswer the question according to the image using a single word or phrase. "
 
         if listinstr(['NarrativeInfoVQA_TEST'], dataset):
             msgs[-1]['value'] += (
-                "\nIf the question cannot be answered using the image, return unanswerable."
+                "If the image does not contain enough evidence, answer exactly: unanswerable. Do not use outside knowledge."
             )
+
+        msgs[-1]['value'] += "\nQuestion: "
 
         return msgs
 

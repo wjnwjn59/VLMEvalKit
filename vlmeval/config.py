@@ -636,7 +636,7 @@ minicpm_series = {
     "MiniCPM-V-2_6": partial(MiniCPM_V_2_6, model_path="openbmb/MiniCPM-V-2_6"),
     "MiniCPM-o-2_6": partial(MiniCPM_o_2_6, model_path="openbmb/MiniCPM-o-2_6"),
     "MiniCPM-V-4": partial(MiniCPM_V_4, model_path="openbmb/MiniCPM-V-4"),
-    "MiniCPM-V-4_5": partial(MiniCPM_V_4_5, model_path="openbmb/MiniCPM-V-4_5"),
+    "MiniCPM-V-4_5": partial(MiniCPM_V_4_5, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/openbmb_MiniCPM-V-4_5"),
 }
 
 xtuner_series = {
@@ -979,7 +979,7 @@ internvl3_5 = {
         InternVLChat, model_path="OpenGVLab/InternVL3_5-1B", version="V2.0"
     ),
     "InternVL3_5-2B": partial(
-        InternVLChat, model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/OpenGVLab_InternVL3_5-2B-HF", version="V2.0"
+        InternVLChat, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/OpenGVLab_InternVL3_5-2B-HF", version="V2.0"
     ),
     "InternVL3_5-2B-Both-NR": partial(
         InternVLChat, model_path="OpenGVLab/InternVL3_5-2B", version="V2.0"
@@ -991,7 +991,7 @@ internvl3_5 = {
         InternVLChat, model_path="OpenGVLab/InternVL3_5-4B", version="V2.0"
     ),
     "InternVL3_5-8B": partial(
-        InternVLChat, model_path="OpenGVLab/InternVL3_5-8B", version="V2.0"
+        InternVLChat, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/OpenGVLab_InternVL3_5-8B", version="V2.0"
     ),
     "InternVL3_5-14B": partial(
         InternVLChat, model_path="OpenGVLab/InternVL3_5-14B", version="V2.0"
@@ -1122,7 +1122,7 @@ qwen3vl_series = {
     ),
     "Qwen3-VL-8B-Instruct": partial(
         Qwen3VLChat,
-        model_path="Qwen/Qwen3-VL-8B-Instruct",
+        model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/Qwen_Qwen3-VL-8B-Instruct",
         use_custom_prompt=False,
         use_vllm=True,
         temperature=0.7, 
@@ -1130,7 +1130,21 @@ qwen3vl_series = {
         repetition_penalty=1.0,
         presence_penalty=1.5,
         top_p=0.8,
-        top_k=20
+        top_k=20,
+        tensor_parallel_size=2
+    ),
+    "Qwen3-VL-8B-Instruct-NarativeInfoVQA-1e": partial(
+        Qwen3VLChat,
+        model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/Qwen_Qwen3-VL-8B-Instruct-NarrativeInfoVQA-1e",
+        use_custom_prompt=False,
+        use_vllm=True,
+        temperature=0.7, 
+        max_new_tokens=16384,
+        repetition_penalty=1.0,
+        presence_penalty=1.5,
+        top_p=0.8,
+        top_k=20,
+        tensor_parallel_size=2
     ),
     "Qwen3-VL-4B-Instruct": partial(
         Qwen3VLChat,
@@ -1146,7 +1160,7 @@ qwen3vl_series = {
     ),
     "Qwen3-VL-2B-Instruct": partial(
         Qwen3VLChat,
-        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen3-VL-2B-Instruct",
+        model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpointsQwen_Qwen3-VL-2B-Instruct",
         use_custom_prompt=False,
         use_vllm=True,
         temperature=0.7, 
@@ -1284,7 +1298,7 @@ idefics_series = {
 smolvlm_series = {
     "SmolVLM-256M": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-256M-Instruct"),
     "SmolVLM-500M": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-500M-Instruct"),
-    "SmolVLM": partial(SmolVLM, model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/HuggingFaceTB_SmolVLM-Instruct"),
+    "SmolVLM": partial(SmolVLM, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpointsHuggingFaceTB_SmolVLM-Instruct"),
     "SmolVLM-DPO": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Instruct-DPO"),
     "SmolVLM-Synthetic": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Synthetic"),
     "SmolVLM2-256M": partial(
@@ -1383,7 +1397,7 @@ ovis_series = {
     "Ovis2-34B": partial(Ovis2, model_path="AIDC-AI/Ovis2-34B"),
     "Ovis-U1-3B": partial(OvisU1, model_path="AIDC-AI/Ovis-U1-3B"),
     "Ovis2.5-2B": partial(Ovis2_5, model_path="AIDC-AI/Ovis2.5-2B"),
-    "Ovis2.5-9B": partial(Ovis2_5, model_path="AIDC-AI/Ovis2.5-9B")
+    "Ovis2.5-9B": partial(Ovis2_5, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/AIDC-AI_Ovis2.5-9B")
 }
 
 mantis_series = {
@@ -1402,12 +1416,12 @@ phi3_series = {
         Phi3Vision, model_path="microsoft/Phi-3-vision-128k-instruct"
     ),
     "Phi-3.5-Vision": partial(
-        Phi3_5Vision, model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/microsoft_Phi-3.5-vision-instruct"
+        Phi3_5Vision, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpointsmicrosoft_Phi-3.5-vision-instruct"
     ),
 }
 
 phi4_series = {
-    'Phi-4-Vision': partial(Phi4Multimodal, model_path='/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/microsoft_Phi-4-multimodal-instruct'),
+    'Phi-4-Vision': partial(Phi4Multimodal, model_path='/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpointsmicrosoft_Phi-4-multimodal-instruct'),
 }
 
 xgen_mm_series = {
@@ -1490,7 +1504,7 @@ qwen2vl_series = {
     ),
     "Qwen2-VL-2B-Instruct": partial(
         Qwen2VLChat,
-        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen2-VL-2B-Instruct",
+        model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpointsQwen_Qwen2-VL-2B-Instruct",
         min_pixels=1280 * 28 * 28,
         max_pixels=16384 * 28 * 28,
     ),
@@ -1520,7 +1534,7 @@ qwen2vl_series = {
     ),
     "Qwen2.5-VL-3B-Instruct": partial(
         Qwen2VLChat,
-        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen2.5-VL-3B-Instruct",
+        model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpointsQwen_Qwen2.5-VL-3B-Instruct",
         min_pixels=1280 * 28 * 28,
         max_pixels=16384 * 28 * 28,
         use_custom_prompt=False,
@@ -1534,7 +1548,7 @@ qwen2vl_series = {
     ),
     "Qwen2.5-VL-7B-Instruct": partial(
         Qwen2VLChat,
-        model_path="/media/vlilab/DATA/MEMBER/Win/llm_checkpoints/Qwen_Qwen2.5-VL-7B-Instruct",
+        model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpointsQwen_Qwen2.5-VL-7B-Instruct",
         min_pixels=1280 * 28 * 28,
         max_pixels=16384 * 28 * 28,
         use_custom_prompt=False,
@@ -1673,7 +1687,7 @@ slime_series = {
 eagle_series = {
     "Eagle-X4-8B-Plus": partial(Eagle, model_path="NVEagle/Eagle-X4-8B-Plus"),
     "Eagle-X4-13B-Plus": partial(Eagle, model_path="NVEagle/Eagle-X4-13B-Plus"),
-    "Eagle-X5-7B": partial(Eagle, model_path="NVEagle/Eagle-X5-7B"),
+    "Eagle-X5-7B": partial(Eagle, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/NVEagle_Eagle-X5-7B"),
     "Eagle-X5-13B": partial(Eagle, model_path="NVEagle/Eagle-X5-13B"),
     "Eagle-X5-13B-Chat": partial(Eagle, model_path="NVEagle/Eagle-X5-13B-Chat"),
     "Eagle-X5-34B-Chat": partial(Eagle, model_path="NVEagle/Eagle-X5-34B-Chat"),
@@ -1700,7 +1714,7 @@ llama_series = {
 
 molmo_series = {
     "molmoE-1B-0924": partial(molmo, model_path="allenai/MolmoE-1B-0924"),
-    "molmo-7B-D-0924": partial(molmo, model_path="allenai/Molmo-7B-D-0924"),
+    "molmo-7B-D-0924": partial(molmo, model_path="/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/allenai_Molmo-7B-D-0924"),
     "molmo-7B-O-0924": partial(molmo, model_path="allenai/Molmo-7B-O-0924"),
     "molmo-72B-0924": partial(molmo, model_path="allenai/Molmo-72B-0924"),
 }
@@ -1792,7 +1806,7 @@ gemma_series = {
     "paligemma2-28b-mix-448": partial(PaliGemma, model_path="google/paligemma2-28b-mix-448"),
 
     'Gemma3-4B': partial(Gemma3, model_path='google/gemma-3-4b-it'),
-    'Gemma3-12B': partial(Gemma3, model_path='google/gemma-3-12b-it'),
+    'Gemma3-12B': partial(Gemma3, model_path='/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/llm_checkpoints/google_gemma-3-12b-it'),
     'Gemma3-27B': partial(Gemma3, model_path='google/gemma-3-27b-it')
 }
 

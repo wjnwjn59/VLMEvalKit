@@ -5,7 +5,7 @@ import io
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
 
-df = pd.read_csv('/media/vlilab/DATA/MEMBER/Win/NarrativeInfoVQA_Test/val_data_layout_total_9.tsv', sep='\t')
+df = pd.read_csv('/media/vli-ws2/ade81ca2-2fce-49cb-a163-e1ee8090540b/thangdd_workspace/NarrativeInfoVQA/val_full_data.tsv', sep='\t')
 
 def encode_row(row):
     img_path, question, answer, idx = row
@@ -35,4 +35,4 @@ with Pool(cpu_count()) as p:
     results = list(tqdm(p.imap(encode_row, rows), total=len(rows)))
 
 df_out = pd.DataFrame(results)
-df_out.to_csv('/home/vlilab/LMUData/NarrativeInfoVQA_TEST_LAYOUT_9.tsv', sep='\t', index=False)
+df_out.to_csv('/home/vli-ws2/LMUData/NarrativeInfoVQA_TEST.tsv', sep='\t', index=False)
