@@ -39,7 +39,7 @@ class llama_vision(BaseModel):
     def use_custom_prompt(self, dataset):
         if dataset is None:
             return False
-        if listinstr(['AI2D', 'MMMU', 'MathVista', 'ChartQA', 'DocVQA'], dataset):
+        if listinstr(['AI2D', 'MMMU', 'MathVista', 'ChartQA', 'DocVQA', 'NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
             # For Certain dataset we use custom prompt
             return True
         else:
@@ -124,6 +124,14 @@ class llama_vision(BaseModel):
                 f'If the answer has multiple words, just respond with the words and absolutely nothing else. '
                 f'Never respond in a sentence or a phrase.\n Question: {question}'
             )
+        elif listinstr(['NarrativeInfoVQA_TEST', 'NarrativeInfoVQA_9L_TEST'], dataset):
+            self.kwargs['max_new_tokens'] = 512
+            instruction = (
+                "Answer the question according to the image using a single word or phrase. "
+                "If the image does not contain enough evidence, answer exactly: unanswerable. "
+                "Do not use outside knowledge.\n"
+            )
+            prompt = instruction + f"Question: {question}"
         else:
             raise NotImplementedError(f'Dataset {dataset}) not supported.')
 
